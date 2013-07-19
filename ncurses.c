@@ -11,6 +11,7 @@ typedef struct Win
 void initncurses();
 Win *create_win(const int y, const int x);
 Win *create_win_struct(WINDOW *win, int y, int x);
+void cleanup_wins(Win *wins[COLS][LINES]);
 
 const int cell_cols = 1;
 const int cell_lines = 1;
@@ -31,8 +32,8 @@ int main(int argc, char *argv[])
     }
 
     wgetch(wins[0][0]->win);
-
     endwin();
+    cleanup_wins(wins);
 
     return 0;
 }
@@ -65,4 +66,18 @@ Win *create_win_struct(WINDOW *win, int y, int x)
     win_struct->y = y;
 
     return win_struct;
+}
+
+void cleanup_wins(Win *wins[COLS][LINES])
+{
+    int i, j;
+
+    for (i = 0; i < LINES; i++)
+    {
+        for (j = 0; j < COLS; j++)
+        {
+            delwin(wins[i][j]->win);
+            free(wins[i][j]);
+        }
+    }
 }
