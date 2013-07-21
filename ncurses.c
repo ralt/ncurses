@@ -2,7 +2,7 @@
 
 void initncurses();
 
-const int cell_cols = 2;
+const int cell_cols = 8;
 const int cell_lines = 2;
 
 int main(int argc, char *argv[])
